@@ -1,0 +1,32 @@
+{
+  "name": "vue-forms",
+  "version": "0.1.0",
+  "description": "validation with vue v3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumcoding/vue-forms.git"
+  },
+  "author": "@sumcoding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumcoding/vue-forms/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "forms",
+    "validation",
+    "validate",
+    "vuelidate",
+    "vee"
+  ],
+  "homepage": "https://github.com/sumcoding/vue-forms#readme",
+  "devDependencies": {
+    "core-js": "^3.6.4",
+    "vue": "^3.0.0-alpha.8"
+  }
+}
