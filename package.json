@@ -22,11 +22,15 @@
     "validation",
     "validate",
     "vuelidate",
-    "vee"
+    "vee",
+    "vuejs"
   ],
   "homepage": "https://github.com/sumcoding/vue-forms#readme",
   "devDependencies": {
     "core-js": "^3.6.4",
-    "vue": "^3.0.0-alpha.12"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.omit": "^4.5.0",
+    "vue": "^3.0.0-beta.2",
+    "webpack": "^4.43.0"
   }
 }

@@ -1,0 +1,1 @@
+export const hasKey = (key, obj) => typeof key === 'object' ? Object.values(key).map(k => Object.keys(obj).includes(k)).includes(true) : Object.keys(obj).includes(key);
