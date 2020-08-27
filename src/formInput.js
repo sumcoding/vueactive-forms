@@ -2,7 +2,7 @@ import { reactive, toRefs, watchEffect } from 'vue';
 import { FormKey } from './FormKey';
 import { hasKey } from './utils';
 
-const simple = (value) => ({[FormKey.ORIGINAL]: value, value, [FormKey.DIRTY]: null})
+const simple = (value) => ({ [FormKey.ORIGINAL]: value, value, [FormKey.DIRTY]: null })
 const setInputObject = (value) => ({ [FormKey.INVALID]: null, [FormKey.ERROR]: null, ...simple(value) });
 
 const setInput = (input$, validations) => {
@@ -13,11 +13,11 @@ const setInput = (input$, validations) => {
 
   /** Set validation attributes on change */
   Object.entries(validations)
-    .map(([key, value]) => typeof value === 'object' && hasKey(FormKey.ERROR, value) ? 
+    .map(([key, value]) => typeof value === 'object' && hasKey(FormKey.ERROR, value) ?
       input$[key].value[FormKey.ERROR] = value[FormKey.ERROR] : input$[key].value = value);
 
   /** Set input to dirty if not already dirty */
-  if(!input$[FormKey.DIRTY].value) {
+  if (!input$[FormKey.DIRTY].value) {
     input$[FormKey.DIRTY].value = input$.value.value !== (null || undefined || '' || input$[FormKey.ORIGINAL].value);
   }
 
@@ -26,9 +26,9 @@ const setInput = (input$, validations) => {
 
 const formInputSimple = (value) => {
   const input$ = reactive(simple(value));
-  const inputAsRef$ = toRefs(input$)
+  const inputAsRef$ = toRefs(input$);
   watchEffect(() => {
-    if(!inputAsRef$[FormKey.DIRTY].value) {
+    if (!inputAsRef$[FormKey.DIRTY].value) {
       inputAsRef$[FormKey.DIRTY].value = inputAsRef$.value.value !== (null || undefined || '' || inputAsRef$[FormKey.ORIGINAL].value);
     }
   });
