@@ -1,8 +1,11 @@
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    validators: './src/validators/index.js',
+  },
   output: {
-    filename: 'vue-forms.js',
+    filename: '[name].js',
     libraryTarget: 'umd',
     library: 'vueForms',
   },
