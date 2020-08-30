@@ -1,3 +1,5 @@
+![Tests](https://github.com/sumcoding/vueactive-forms/workflows/Tests/badge.svg)
+
 # vueactive-forms
 A vuejs validation library that utilizes the reactivity API to compose a form object.
 
