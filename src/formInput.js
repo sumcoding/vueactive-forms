@@ -51,7 +51,7 @@ const formInputValidator = (validator, value) => {
   const input$ = reactive({ ...setInputObject(value), ...validator(value) })
   const inputAsRef$ = toRefs(input$)
   watchEffect(async onInvalidate => {
-    onInvalidate(() => { console.log('invalidate') });
+    onInvalidate(() => { /** set for promise invalidation */ });
     const validations = await setValidator(validator, inputAsRef$.value.value);
 
     setInput(inputAsRef$, validations);
@@ -67,7 +67,7 @@ const formInputValidatorsArray = (validators, value) => {
   const input$ = reactive({ ...setInputObject(value), ...getInitialValidations })
   const inputAsRef$ = toRefs(input$)
   watchEffect(async onInvalidate => {
-    onInvalidate(() => { console.log('invalidate') })
+    onInvalidate(() => { /** set for promise invalidation */ })
     let validations;
     /** need to iterate over an array of validators and check for promises */
     await Promise.all(validators.map(async validator => {
