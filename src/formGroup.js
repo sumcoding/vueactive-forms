@@ -3,6 +3,7 @@ import omit from 'lodash.omit';
 import cloneDeep from 'lodash.clonedeep';
 import { FormKey } from './FormKey';
 import { hasKey, mapValueOf } from './utils'
+import { formInput } from './formInput';
 
 function recursive(obj, callback) {
   Object.entries(obj).forEach(([key, value]) => {
@@ -29,7 +30,12 @@ const clean = (toClean) => {
   };
 }
 
+const addSimpleInputToPlainValues = (toAdd) => {
+  recursive(toAdd, (value, key, obj) => { if(typeof obj[key] !== 'object') obj[key] = formInput(value); });
+}
+
 export const formGroup = (group) => {
+  addSimpleInputToPlainValues(group);
   const group$ = reactive({
     ...group,
     [FormKey.INVALID]: null,

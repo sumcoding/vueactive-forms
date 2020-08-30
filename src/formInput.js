@@ -35,11 +35,24 @@ const formInputSimple = (value) => {
   return input$;
 }
 
+const setValidator = async (validator, value) => {
+  let validation = {};
+  const key = Object.keys(validator(value))[0];
+
+  if (validator(value)[key].then) {
+    validation[key] = await validator(value)[key];
+  } else {
+    validation = validator(value);
+  }
+  return validation;
+}
+
 const formInputValidator = (validator, value) => {
   const input$ = reactive({ ...setInputObject(value), ...validator(value) })
   const inputAsRef$ = toRefs(input$)
-  watchEffect(() => {
-    const validations = { ...validator(inputAsRef$.value.value) };
+  watchEffect(async onInvalidate => {
+    onInvalidate(() => { console.log('invalidate') });
+    const validations = await setValidator(validator, inputAsRef$.value.value);
 
     setInput(inputAsRef$, validations);
   });
@@ -53,10 +66,16 @@ const formInputValidatorsArray = (validators, value) => {
 
   const input$ = reactive({ ...setInputObject(value), ...getInitialValidations })
   const inputAsRef$ = toRefs(input$)
-  watchEffect(() => {
-    // need to iterate over an array of validators
+  watchEffect(async onInvalidate => {
+    onInvalidate(() => { console.log('invalidate') })
     let validations;
-    validators.forEach(validator => validations = { ...validations, ...validator(inputAsRef$.value.value) });
+    /** need to iterate over an array of validators and check for promises */
+    await Promise.all(validators.map(async validator => {
+      let validation = await setValidator(validator, inputAsRef$.value.value);
+
+      validations = { ...validations, ...validation };
+      return validation;
+    }));
 
     setInput(inputAsRef$, validations);
   });
