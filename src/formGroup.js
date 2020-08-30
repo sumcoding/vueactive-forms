@@ -3,6 +3,7 @@ import omit from 'lodash.omit';
 import cloneDeep from 'lodash.clonedeep';
 import { FormKey } from './FormKey';
 import { hasKey, mapValueOf } from './utils'
+import { formInput } from './formInput';
 
 function recursive(obj, callback) {
   Object.entries(obj).forEach(([key, value]) => {
@@ -12,24 +13,29 @@ function recursive(obj, callback) {
   });
 }
 
-const touch = (toTouch) => () => recursive(toTouch, value => { if(hasKey(FormKey.DIRTY, value)) value[FormKey.DIRTY] = true });
+const touch = (toTouch) => () => recursive(toTouch, value => { if (hasKey(FormKey.DIRTY, value)) value[FormKey.DIRTY] = true });
 
 const reset = (toReset) => () => recursive(toReset, value => {
-  if(hasKey(FormKey.DIRTY, value)) value[FormKey.DIRTY] = false;
-  if(hasKey('value', value)) value.value = value[FormKey.ORIGINAL];
+  if (hasKey(FormKey.DIRTY, value)) value[FormKey.DIRTY] = false;
+  if (hasKey('value', value)) value.value = value[FormKey.ORIGINAL];
 });
 
 const clean = (toClean) => {
   return () => {
     /** make a deep copy of the object and omit top level FormKey's */
-    const newobj = omit(cloneDeep(toClean),  Object.values(FormKey));
+    const newobj = omit(cloneDeep(toClean), Object.values(FormKey));
     /** iterate over the new obj */
     recursive(newobj, (value, key, obj) => { obj[key] = hasKey('value', value) ? value.value : value; });
     return newobj;
   };
 }
 
+const addSimpleInputToPlainValues = (toAdd) => {
+  recursive(toAdd, (value, key, obj) => { if(typeof obj[key] !== 'object') obj[key] = formInput(value); });
+}
+
 export const formGroup = (group) => {
+  addSimpleInputToPlainValues(group);
   const group$ = reactive({
     ...group,
     [FormKey.INVALID]: null,

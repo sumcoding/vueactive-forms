@@ -1,5 +1,5 @@
-# vue-forms
-A vuejs v3 validation library that utilizes the composition API to the max.
+# vueactive-forms
+A vuejs validation library that utilizes the reactivity API to compose a form object.
 
 
 If passing the form object into a child component with internal inputs, it is important to pass the whole form input object and not just the value. As you should not directly mutate a prop value.

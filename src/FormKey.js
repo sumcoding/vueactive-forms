@@ -3,7 +3,7 @@ export const FormKey = Object.freeze({
   DIRTY: '$dirty',
   ORIGINAL: '$originalValue',
   ERROR: '$error',
-  CLEAN: 'clean',
-  RESET: 'reset',
-  TOUCH: 'touch',
+  CLEAN: '$clean',
+  RESET: '$reset',
+  TOUCH: '$touch',
 })
