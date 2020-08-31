@@ -2,10 +2,10 @@ import { reactive, toRefs, watchEffect } from 'vue';
 import { FormKey } from './FormKey';
 import { hasKey } from './utils';
 
-const simple = (value) => ({ [FormKey.ORIGINAL]: value, value, [FormKey.DIRTY]: null })
-const setInputObject = (value) => ({ [FormKey.INVALID]: null, [FormKey.ERROR]: null, ...simple(value) });
+export const setSimpleInputObject = (value) => ({ [FormKey.ORIGINAL]: value, value, [FormKey.DIRTY]: null })
+export const setValidationInputObject = (value) => ({ [FormKey.INVALID]: null, [FormKey.ERROR]: null, ...setSimpleInputObject(value) });
 
-const setInput = (input$, validations) => {
+export const setInputValues = (input$, validations) => {
   /** check if any validation is returning true */
   input$[FormKey.INVALID].value = Object.entries(validations).map(
     ([key, value]) => typeof value === 'object' && hasKey(FormKey.ERROR, value) ? value[FormKey.ERROR] : value
@@ -24,18 +24,7 @@ const setInput = (input$, validations) => {
   input$[FormKey.ERROR].value = input$[FormKey.INVALID].value && input$[FormKey.DIRTY].value;
 }
 
-const formInputSimple = (value) => {
-  const input$ = reactive(simple(value));
-  const inputAsRef$ = toRefs(input$);
-  watchEffect(() => {
-    if (!inputAsRef$[FormKey.DIRTY].value) {
-      inputAsRef$[FormKey.DIRTY].value = inputAsRef$.value.value !== (null || undefined || '' || inputAsRef$[FormKey.ORIGINAL].value);
-    }
-  });
-  return input$;
-}
-
-const setValidator = async (validator, value) => {
+export const setValidator = async (validator, value) => {
   let validation = {};
   const key = Object.keys(validator(value))[0];
 
@@ -47,24 +36,35 @@ const setValidator = async (validator, value) => {
   return validation;
 }
 
-const formInputValidator = (validator, value) => {
-  const input$ = reactive({ ...setInputObject(value), ...validator(value) })
+export const formInputSimple = (value) => {
+  const input$ = reactive(setSimpleInputObject(value));
+  const inputAsRef$ = toRefs(input$);
+  watchEffect(() => {
+    if (!inputAsRef$[FormKey.DIRTY].value) {
+      inputAsRef$[FormKey.DIRTY].value = inputAsRef$.value.value !== (null || undefined || '' || inputAsRef$[FormKey.ORIGINAL].value);
+    }
+  });
+  return input$;
+}
+
+export const formInputValidator = (value, validator) => {
+  const input$ = reactive({ ...setValidationInputObject(value), ...validator(value) })
   const inputAsRef$ = toRefs(input$)
   watchEffect(async onInvalidate => {
     onInvalidate(() => { /** set for promise invalidation */ });
     const validations = await setValidator(validator, inputAsRef$.value.value);
 
-    setInput(inputAsRef$, validations);
+    setInputValues(inputAsRef$, validations);
   });
   return input$;
 }
 
-const formInputValidatorsArray = (validators, value) => {
+export const formInputValidatorsArray = (value, validators) => {
   /** get the initial values of provided validators */
   let getInitialValidations;
   validators.forEach(validator => getInitialValidations = { ...getInitialValidations, ...validator(value) });
 
-  const input$ = reactive({ ...setInputObject(value), ...getInitialValidations })
+  const input$ = reactive({ ...setValidationInputObject(value), ...getInitialValidations })
   const inputAsRef$ = toRefs(input$)
   watchEffect(async onInvalidate => {
     onInvalidate(() => { /** set for promise invalidation */ })
@@ -77,7 +77,7 @@ const formInputValidatorsArray = (validators, value) => {
       return validation;
     }));
 
-    setInput(inputAsRef$, validations);
+    setInputValues(inputAsRef$, validations);
   });
   return input$;
 }
@@ -85,7 +85,7 @@ const formInputValidatorsArray = (validators, value) => {
 /** checks if there is an array of validations or not */
 export const formInput = (value, validators) => {
   if (validators) {
-    return Array.isArray(validators) ? formInputValidatorsArray(validators, value) : formInputValidator(validators, value);
+    return Array.isArray(validators) ? formInputValidatorsArray(value, validators) : formInputValidator(value, validators);
   } else {
     return formInputSimple(value);
   }
