@@ -136,7 +136,7 @@ describe('formGroup', () => {
     setImmediate(() => {
       result.one.value = newValue;
     });
-  
+
     setImmediate(() => {
       expect(result).toMatchObject({
         one: {
@@ -165,7 +165,5 @@ describe('formGroup', () => {
       });
       done();
     });
-
-    
   });
 });
