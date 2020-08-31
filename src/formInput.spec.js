@@ -92,7 +92,7 @@ describe('formInput', () => {
 
       result.value = newValue;
 
-      process.nextTick(() =>
+      setImmediate(() =>
         expect(result).toMatchObject({
           [FormKey.ORIGINAL]: value,
           value: newValue,
@@ -107,7 +107,7 @@ describe('formInput', () => {
       const result = formInputValidator(value, mockValidator);
 
       expect(mockValidator).toHaveBeenCalled();
-      process.nextTick(() => {
+      setImmediate(() => {
         expect(result).toMatchObject({
           [FormKey.INVALID]: false,
           [FormKey.ERROR]: false,
@@ -126,7 +126,7 @@ describe('formInput', () => {
 
       result.value = newValue;
 
-      process.nextTick(() => {
+      setImmediate(() => {
         expect(result).toMatchObject({
           [FormKey.INVALID]: true,
           [FormKey.ERROR]: true,
@@ -145,7 +145,7 @@ describe('formInput', () => {
       expect(mockValidator).toHaveBeenCalled();
       expect(mockValidatorAsync).toHaveBeenCalled();
 
-      process.nextTick(() => {
+      setImmediate(() => {
         expect(result).toMatchObject({
           [FormKey.INVALID]: true,
           [FormKey.ERROR]: false,
@@ -166,7 +166,7 @@ describe('formInput', () => {
 
       result.value = newValue;
 
-      process.nextTick(() => {
+      setImmediate(() => {
         expect(result).toMatchObject({
           [FormKey.INVALID]: true,
           [FormKey.ERROR]: true,
@@ -189,7 +189,7 @@ describe('formInput', () => {
     test('should return a validation input object if validators are present', async () => {
       const result = formInput(value, [mockValidator, mockValidatorAsync]);
 
-      process.nextTick(() => {
+      setImmediate(() => {
         expect(result).toMatchObject({
           [FormKey.INVALID]: true,
           [FormKey.ERROR]: false,
