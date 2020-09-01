@@ -1,17 +1,18 @@
 {
   "name": "vueactive-forms",
-  "version": "0.4.0",
-  "description": "Simple validation with vue reactivity api",
-  "main": "dist/main.js",
+  "version": "0.5.0",
+  "description": "Simple validation with the vue reactivity api",
+  "main": "dist/main.umd.min.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --config webpack.config.js"
+    "build": "vue-cli-service build --target lib --name main src/index.js",
+    "build:validators": "webpack --config webpack.config.js"
   },
   "files": [
     "dist",
+    "validators",
     "src"
   ],
-  "publishConfig": { "registry": "https://npm.pkg.github.com/@sumcoding" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumcoding/vueactive-forms.git"
@@ -41,6 +42,8 @@
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0-0",
     "babel-jest": "^26.3.0",
     "jest": "^26.4.2",
     "webpack": "^4.44.1",
