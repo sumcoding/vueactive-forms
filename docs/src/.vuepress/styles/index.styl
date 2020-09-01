@@ -1,0 +1,34 @@
+/**
+ * Custom Styles here.
+ *
+ * ref：https://v1.vuepress.vuejs.org/config/#index-styl
+ */
+
+.home .hero img
+  max-width 200px!important
+
+table
+  display: grid
+  grid-template-areas: "header header" "body body"
+
+thead
+  grid-area: header
+  border-bottom: 1px solid $borderColor
+
+tbody
+  grid-area: body
+
+tr
+  display: grid
+  grid-auto-flow: column
+  grid-auto-columns: 100px auto
+  border: 0
+
+th
+  padding: 4px
+
+th, td
+  border: 0
+  padding-left: 0
+  line-height: 24px
+
