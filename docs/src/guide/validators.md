@@ -2,22 +2,42 @@
 
 ## required
 ``` js
-const required = (value) => ({ required: value === '' });
+(value) => ({ required: value === '' });
 ```
 
 ## minLength
 ``` js
-const minLength = (min) => (value) => ({ mixLength: value.length < min });
+(min) => (value) => ({ mixLength: value.length < min });
 ```
 
 ## maxLength
 ``` js
-const maxLength = (max) => (value) => ({ maxLength: value.length > max });
+(max) => (value) => ({ maxLength: value.length > max });
+```
+
+## minValue 
+``` js
+(min) => (value) => ({ minValue: typeof value === 'number' && value < min });
+```
+
+## maxValue 
+``` js
+(max) => (value) => ({ maxValue: typeof value === 'number' && value > max });
+```
+
+## email 
+``` js
+(value) => ({ email: !emailRegex.test(value) });
+```
+
+## numeric 
+``` js
+(value) => ({ numeric: !(typeof value === 'number') });
 ```
 
 ## Custom Validtors
 
-A validator needs to take in a value and return an object with the desired name of the validation for the key and the condition as its key value. `{ custom: value === 'test' }`. This is used for checking the value later and updating the form input and form group. 
+A validator needs to take in a value and return an object with the desired name of the validation for the key and the condition as its key value. `{ custom: value === 'test' }`. This is used for checking the value later and updating the form input and form group. If the key value is `true` the input will be `$invalid`, so keep this in mind when designing validations.
 
 ``` js
 const customValidator = (value) => ({ custom: value === 'test' });

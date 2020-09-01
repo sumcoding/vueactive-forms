@@ -1,21 +1,12 @@
+const path = require('path');
+
 module.exports = {
   mode: 'production',
-  entry: {
-    main: './src/index.js',
-    validators: './src/validators/index.js',
-  },
+  entry: './src/validators/index.js',
   output: {
-    filename: '[name].js',
+    filename: 'index.js',
     libraryTarget: 'umd',
-    library: 'vueForms',
+    library: 'validators',
+    path: path.resolve(__dirname, 'validators')
   },
-  externals: [
-    {
-      vue: {
-        amd: 'vue',
-        commonjs: 'vue',
-        commonjs2: 'vue'
-      }
-    }
-  ]
 };

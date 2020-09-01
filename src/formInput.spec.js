@@ -10,7 +10,6 @@ import {
   formInput
 } from './formInput';
 import { FormKey } from './FormKey';
-import { required } from './validators';
 
 describe('formInput', () => {
   const value = 'value';
@@ -39,8 +38,8 @@ describe('formInput', () => {
 
   describe('setValidator', () => {
     test('should set validator object', async () => {
-      const validation = await setValidator(required, value);
-      expect(validation).toMatchObject({ required: false })
+      const validation = await setValidator(mockValidator, value);
+      expect(validation).toMatchObject({ mockValidator: false })
     });
 
     test('should resolve promise when setting validator object', async () => {
@@ -52,7 +51,7 @@ describe('formInput', () => {
 
   describe('setInputValues', () => {
     test('should update ref with changes when new value is set', () => {
-      const value$ = reactive({ ...setValidationInputObject(value), required: false });
+      const value$ = reactive({ ...setValidationInputObject(value), mockValidator: false });
       const refValue$ = toRefs(value$);
       expect(refValue$.value['_object']).toMatchObject({
         [FormKey.INVALID]: null,
@@ -60,17 +59,17 @@ describe('formInput', () => {
         [FormKey.ORIGINAL]: value,
         value,
         [FormKey.DIRTY]: null,
-        required: false
+        mockValidator: false
       });
       refValue$.value.value = '';
-      setInputValues(refValue$, { required: true });
+      setInputValues(refValue$, { mockValidator: true });
       expect(refValue$.value['_object']).toMatchObject({
         [FormKey.INVALID]: true,
         [FormKey.ERROR]: true,
         [FormKey.ORIGINAL]: value,
         value: '',
         [FormKey.DIRTY]: true,
-        required: true
+        mockValidator: true
       });
     });
   });
