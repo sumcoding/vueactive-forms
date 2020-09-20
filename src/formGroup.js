@@ -1,6 +1,4 @@
 import { reactive, toRefs, watchEffect } from 'vue';
-import omit from 'lodash.omit';
-import cloneDeep from 'lodash.clonedeep';
 import { FormKey } from './FormKey';
 import { hasKey, mapValueOf } from './utils'
 import { formInput } from './formInput';
@@ -22,9 +20,13 @@ const reset = (toReset) => () => recursive(toReset, value => {
 
 const clean = (toClean) => {
   return () => {
-    /** make a deep copy of the object and omit top level FormKey's */
-    const newobj = omit(cloneDeep(toClean), Object.values(FormKey));
-    /** iterate over the new obj */
+    // make a deep copy of the object
+    const newobj = JSON.parse(JSON.stringify(toClean));
+    // remove top level FormKey's
+    delete newobj[FormKey.ERROR];
+    delete newobj[FormKey.INVALID];
+    delete newobj[FormKey.DIRTY];
+    // iterate over the new obj 
     recursive(newobj, (value, key, obj) => { obj[key] = hasKey('value', value) ? value.value : value; });
     return newobj;
   };

@@ -1,6 +1,6 @@
 {
   "name": "vueactive-forms",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Simple validation with the vue reactivity api",
   "main": "dist/main.umd.min.js",
   "scripts": {
@@ -33,13 +33,9 @@
     "vuejs"
   ],
   "homepage": "https://github.com/sumcoding/vueactive-forms#readme",
-  "dependencies": {
-    "core-js": "^3.6.5",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.omit": "^4.5.0",
-    "vue": "^3.0.0"
-  },
   "devDependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0",
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
     "@vue/cli-service": "~4.5.0",
@@ -48,5 +44,6 @@
     "jest": "^26.4.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "dependencies": {}
 }
