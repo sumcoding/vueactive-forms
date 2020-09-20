@@ -1,9 +1,5 @@
 # Introduction
 
-::: warning Warning
-This requires Vue 3 which currently does not have a final release candidate
-:::
-
 Vueactive forms is a simple model based validator utilizing the [Reactivity API](https://v3.vuejs.org/api/basic-reactivity.html).
 It is decoupled from templates and allows for custom stylings and interactions. It is similar to vuelidate in this way, but does not completely separate itself from the model data as that does.
 
