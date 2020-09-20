@@ -37,7 +37,10 @@ node_modules/
 .DS_Store
 
 # bundled libraries
-dist
+dist/*
 validators
+!dist/main.umd.min.js
 
-demo
+# sandbox environment
+sandbox
+
